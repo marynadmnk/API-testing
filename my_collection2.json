@@ -1,0 +1,748 @@
+{
+  "info": {
+    "_postman_id": "016db6e4-137a-4ae0-b01a-566bc6fdb90e",
+    "name": "Test API courses",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "21914885"
+  },
+  "item": [
+    {
+      "name": "Negative tests",
+      "item": [
+        {
+          "name": "GET lists",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is not 200\", function () {\r",
+                  "    pm.expect(pm.response.code).to.not.equal(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "pk_302406757_XB354UV7CD6NGQME70U9WK3UFUV9SWXT",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/folder/11112222333/list",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "folder",
+                "11112222333",
+                "list"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE list",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "\r",
+                  "\r",
+                  "pm.test(\"Delete non-existing list returns error\", function () {\r",
+                  "    pm.expect(pm.response.code).to.not.equal(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/list/99999999",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "list",
+                "99999999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE list",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is not 200\", function () {",
+                  "    pm.expect(pm.response.code).to.not.equal(200);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "accept",
+                "value": "application/json"
+              },
+              {
+                "key": "content-type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "\n{\n  \"name\": \"{{updated_list_name}}\"\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/list/9999944122",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "list",
+                "9999944122"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE list",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Invalid folder ID returns error\", function () {\r",
+                  "    pm.expect(pm.response.code).to.not.equal(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Empty name returns error\", function () {\r",
+                  "    pm.expect(pm.response.code).to.not.equal(200);\r",
+                  "});\r",
+                  "\r",
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "pk_302406757_XB354UV7CD6NGQME70U9WK3UFUV9SWXT"
+              },
+              {
+                "key": "accept",
+                "value": "application/json"
+              },
+              {
+                "key": "content-type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \" \"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/folder/5214233251/list",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "folder",
+                "5214233251",
+                "list"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "GET lists",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "const body = pm.response.json();",
+              "",
+              "pm.test(\"Response contains lists array\", function () {",
+              "    pm.expect(body.lists).to.be.an(\"array\");",
+              "});",
+              "",
+              "pm.test(\"Lists array is not empty\", function () {",
+              "    pm.expect(body.lists.length).to.be.greaterThan(0);",
+              "});",
+              "",
+              "pm.test(\"List has required fields\", function () {",
+              "    const list = body.lists[0];",
+              "",
+              "    pm.expect(list).to.have.property(\"id\");",
+              "    pm.expect(list).to.have.property(\"name\");",
+              "    pm.expect(list).to.have.property(\"orderindex\");",
+              "});",
+              "",
+              "const schema = {",
+              "    type: \"object\",",
+              "    required: [\"lists\"],",
+              "    properties: {",
+              "        lists: {",
+              "            type: \"array\",",
+              "            items: {",
+              "                type: \"object\",",
+              "                required: [\"id\", \"name\", \"orderindex\"],",
+              "                properties: {",
+              "                    id:               { type: \"string\" },",
+              "                    name:             { type: \"string\" },",
+              "                    orderindex:       { type: \"number\" },",
+              "                    content:          { type: \"string\" },",
+              "                    status:           {},",
+              "                    priority:         {},",
+              "                    assignee:         {},",
+              "                    task_count:       { type: \"number\" },",
+              "                    due_date:         {},",
+              "                    start_date:       {},",
+              "                    archived:         { type: \"boolean\" },",
+              "                    override_statuses:{ type: \"boolean\" },",
+              "                    permission_level: { type: \"string\" },",
+              "                    folder: {",
+              "                        type: \"object\",",
+              "                        properties: {",
+              "                            id:       { type: \"string\" },",
+              "                            name:     { type: \"string\" },",
+              "                            hidden:   { type: \"boolean\" },",
+              "                            archived: { type: \"boolean\" },",
+              "                            access:   { type: \"boolean\" }",
+              "                        }",
+              "                    },",
+              "                    space: {",
+              "                        type: \"object\",",
+              "                        properties: {",
+              "                            id:       { type: \"string\" },",
+              "                            name:     { type: \"string\" },",
+              "                            archived: { type: \"boolean\" },",
+              "                            access:   { type: \"boolean\" }",
+              "                        }",
+              "                    }",
+              "                }",
+              "            }",
+              "        }",
+              "    }",
+              "};",
+              "",
+              "pm.test(\"Schema is valid\", function () {",
+              "    pm.response.to.have.jsonSchema(schema);",
+              "});",
+              "",
+              "const ids = body.lists.map(list => list.id);",
+              "",
+              "console.log(\"All List IDs:\");",
+              "ids.forEach(id => console.log(id));"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "pk_302406757_XB354UV7CD6NGQME70U9WK3UFUV9SWXT"
+          },
+          {
+            "key": "accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/folder/{{folder_id}}/list",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "folder",
+            "{{folder_id}}",
+            "list"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CREATE list",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Your test name\", function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body.priority).to.eql(null);",
+              "});",
+              "var body = pm.response.json();",
+              "",
+              "console.log(body);",
+              "console.log(body.id);",
+              "",
+              "pm.collectionVariables.set(\"list_id\", body.id);",
+              "",
+              "pm.test(\"List contains required fields\", function () {",
+              "    pm.expect(body).to.have.property(\"id\");",
+              "    pm.expect(body).to.have.property(\"name\");",
+              "    pm.expect(body).to.have.property(\"folder\");",
+              "});",
+              "",
+              "pm.test(\"Response schema validation\", function () {",
+              "    const schema = {",
+              "        type: \"object\",",
+              "        required: [\"id\", \"name\"]",
+              "    };",
+              "",
+              "    const Ajv = require('ajv');",
+              "    const ajv = new Ajv();",
+              "    const valid = ajv.validate(schema, pm.response.json());",
+              "    pm.expect(valid).to.be.true;",
+              "});",
+              "",
+              "pm.test(\"Schema validation\", () => {",
+              "    const schema = {",
+              "        type: \"object\",",
+              "        required: [\"id\", \"name\"]",
+              "    };",
+              "",
+              "    const Ajv = require('ajv');",
+              "    const ajv = new Ajv();",
+              "    const valid = ajv.validate(schema, pm.response.json());",
+              "",
+              "    pm.expect(valid).to.be.true;",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "pm.sendRequest({\r",
+              "    url: \"https://api.clickup.com/api/v2/list/{{list_id}}/task\",\r",
+              "    method: \"POST\",\r",
+              "    header: {\r",
+              "        \"Authorization\": pm.environment.get(\"token\"),\r",
+              "        \"Content-Type\": \"application/json\"\r",
+              "    },\r",
+              "    body: {\r",
+              "        mode: \"raw\",\r",
+              "        raw: JSON.stringify({\r",
+              "            name: \"Task created in pre-request\"\r",
+              "        })\r",
+              "    }\r",
+              "}, function (err, res) {\r",
+              "\r",
+              "    if (!err) {\r",
+              "        const taskId = res.json().id;\r",
+              "\r",
+              "        pm.environment.set(\"temp_task_id\", taskId);\r",
+              "\r",
+              "        console.log(\"Created task:\", taskId);\r",
+              "    }\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "pk_302406757_XB354UV7CD6NGQME70U9WK3UFUV9SWXT"
+          },
+          {
+            "key": "accept",
+            "value": "application/json"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"test_{{$randomFileName}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/folder/{{folder_id}}/list",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "folder",
+            "{{folder_id}}",
+            "list"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET list",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "const body = pm.response.json();\r",
+              "\r",
+              "pm.test(\"Response contains list ID\", function () {\r",
+              "    pm.expect(body).to.have.property(\"id\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Returned list ID matches request list ID\", function () {\r",
+              "    pm.expect(body.id.toString())\r",
+              "        .to.eql(pm.collectionVariables.get(\"list_id\"));\r",
+              "});\r",
+              "\r",
+              "pm.test(\"List contains required fields\", function () {\r",
+              "    pm.expect(body).to.have.property(\"id\");\r",
+              "    pm.expect(body).to.have.property(\"name\");\r",
+              "    pm.expect(body).to.have.property(\"folder\");\r",
+              "    pm.expect(body).to.have.property(\"space\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "pk_302406757_XB354UV7CD6NGQME70U9WK3UFUV9SWXT"
+          },
+          {
+            "key": "accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/list/{{list_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "list",
+            "{{list_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UPDATE list",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "const updatedName = `QA_List_${Date.now()}`;\r",
+              "\r",
+              "pm.collectionVariables.set(\"updated_list_name\", updatedName);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response time is less than 2 seconds\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+              "});",
+              "",
+              "const body = pm.response.json();",
+              "",
+              "pm.test(\"Response contains list ID\", function () {",
+              "    pm.expect(body).to.have.property(\"id\");",
+              "});",
+              "",
+              "pm.test(\"Updated list ID matches requested list ID\", function () {",
+              "    pm.expect(body).to.have.property(\"id\");",
+              "    pm.expect(body.id.toString())",
+              "        .to.eql(pm.collectionVariables.get(\"list_id\"));",
+              "});",
+              "",
+              "pm.test(\"Response contains required fields\", function () {",
+              "    pm.expect(body).to.have.property(\"id\");",
+              "    pm.expect(body).to.have.property(\"name\");",
+              "    pm.expect(body).to.have.property(\"folder\");",
+              "    pm.expect(body).to.have.property(\"space\");",
+              "});",
+              "",
+              "pm.test(\"List name updated successfully\", function () {",
+              "    pm.expect(body.name)",
+              "        .to.eql(pm.collectionVariables.get(\"updated_list_name\"));",
+              "});",
+              "",
+              "pm.collectionVariables.set(",
+              "    \"actual_list_name\",",
+              "    body.name",
+              ");"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "\n{\n  \"name\": \"{{updated_list_name}}\"\n}\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/list/{{list_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "list",
+            "{{list_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE list",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response time is less than 2 seconds\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+              "});\r",
+              "\r",
+              "const taskId = pm.environment.get(\"temp_task_id\");\r",
+              "\r",
+              "if (taskId) {\r",
+              "\r",
+              "    pm.sendRequest({\r",
+              "        url: `https://api.clickup.com/api/v2/task/${taskId}`,\r",
+              "        method: \"DELETE\",\r",
+              "        header: {\r",
+              "            \"Authorization\": pm.environment.get(\"token\")\r",
+              "        }\r",
+              "    }, function (err, res) {\r",
+              "\r",
+              "        if (!err) {\r",
+              "            console.log(`Task ${taskId} deleted`);\r",
+              "        }\r",
+              "    });\r",
+              "\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/list/{{list_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "list",
+            "{{list_id}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "value",
+        "value": "{{token}}",
+        "type": "string"
+      },
+      {
+        "key": "key",
+        "value": "Authorization",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "list_id",
+      "value": ""
+    },
+    {
+      "key": "updated_list_name",
+      "value": ""
+    },
+    {
+      "key": "actual_list_name",
+      "value": ""
+    }
+  ]
+}
