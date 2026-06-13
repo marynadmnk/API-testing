@@ -1,5 +1,5 @@
 {
-  "name": "api-test",
+  "name": "api-test-cypress",
   "version": "1.0.0",
   "description": "",
   "license": "ISC",
@@ -8,5 +8,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "cypress": "^15.16.0"
+  },
+  "allowScripts": {
+    "cypress@15.16.0": true
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2"
   }
 }
